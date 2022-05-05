@@ -1,0 +1,38 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en-au">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="AUTHOR" content="Stephen Hayes">
+		<title>{% block titlecontent %}{% endblock %} - Accessible Portfolio</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css">
+		<script src="/static/scripts.js"></script>
+		<link rel="stylesheet" href="/static/style.css" type="text/css">
+	</head>
+
+	<body{% block scriptcontent %}{% endblock %}>
+		<div class="container">
+			<header>
+				<h1>Accessible Portfolio</h1>
+			</header>
+
+			<main>
+				<div class="row">
+					{% if messages %}
+						{% for msg in messages%}
+							<div class=" alert alert-{{msg.tags}}">
+								{{msg}}
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+				{% block maincontent %}
+
+				{% endblock %}
+			</main>
+
+			<footer>&copy; Stephen Hayes.</footer>
+		</div>
+	</body>
+</html>

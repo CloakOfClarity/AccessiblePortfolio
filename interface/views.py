@@ -1,3 +1,13 @@
 from django.shortcuts import render
 
-# Create your views here.
+def homePage(request):
+	return render(request, 'home.html')
+
+def educationPage(request):
+	return render(request, 'education.html')
+
+def employmentPage(request):
+	return render(request, 'employment.html')
+
+def skillsPage(request):
+	return render(request, 'skills.html')
