@@ -14,3 +14,6 @@ def referencesPage(request):
 
 def skillsPage(request):
 	return render(request, 'skills.html')
+
+def viewPage(request):
+	return render(request, 'view.html')

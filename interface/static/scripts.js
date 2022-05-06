@@ -389,3 +389,8 @@ function deleteSkill()
 		}}); // End AJAX method
 	} // End confirmation block
 } // End deleteSkill function
+
+function viewPF()
+{ // This function fetches and displays all the data in the portfolio
+
+} // End viewPF function
