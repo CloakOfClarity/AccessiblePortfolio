@@ -1,9 +1,47 @@
 {% extends "base.html"%}
 {% block titlecontent %}Education{% endblock %}
-{% block scriptcontent %}{% endblock %}
+{% block scriptcontent %}onload="listEducation()"{% endblock %}
 {% block maincontent %}
 	<h2>Education</h2>
 	<a href="{%url 'Home' %}">Return Home</a>
 	<p>Use the options on this page to add, update or remove any education you have undergone.</p>
-
+	<ul></ul><!-- list of diplomas -->
+	<section>
+		<h3>Add New Education</h3>
+		<input type="hidden" id="educationID" value="" />
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label for="txtDiploma" class="col-sm-4">Diploma:</label>
+				<div class="col-sm-8">
+					<input id="txtDiploma" maxlength="50" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtInstitution" class="col-sm-4">Institution:</label>
+				<div class="col-sm-8">
+					<input id="txtInstitution" maxlength="50" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtStartYear" class="col-sm-4">Start Year:</label>
+				<div class="col-sm-8">
+					<input id="txtStartYear" maxlength="4" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtEndYear" class="col-sm-4">End Year:</label>
+				<div class="col-sm-8">
+					<input id="txtEndYear" maxlength="4" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button" id="btnPost" class="btn" onclick="addEducation()">Add</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" id="btnDelete" disabled="disabled" class="btn" onclick="deleteEducation()">Delete</button>
+				</div>
+			</div><!-- end row -->
+		</div><!-- end form -->
+	</section>
 {% endblock %}

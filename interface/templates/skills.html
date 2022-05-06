@@ -1,9 +1,39 @@
 {% extends "base.html"%}
 {% block titlecontent %}Skills{% endblock %}
-{% block scriptcontent %}{% endblock %}
+{% block scriptcontent %}onload="listSkills()"{% endblock %}
 {% block maincontent %}
 	<h2>Skills</h2>
 	<a href="{%url 'Home' %}">Return Home</a>
 	<p>Use the options on this page to add, update or remove any skills you possess.</p>
-
+	<ul></ul><!-- list of diplomas -->
+	<section>
+		<h3>Add New Skill</h3>
+		<input type="hidden" id="skillID" value="" />
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label for="txtName" class="col-sm-4">Name:</label>
+				<div class="col-sm-8">
+					<input id="txtName" maxlength="50" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="cboProficiency" class="col-sm-4">Proficiency:</label>
+				<div class="col-sm-8">
+					<select id="cboProficiency" size="1" class="form-control">
+						<option value="1">Beginner</option>
+						<option value="2">Regular</option>
+						<option value="3">Expert</option>
+					</select>
+				</div>
+			</div><!-- end form group -->
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button" id="btnPost" class="btn" onclick="addSkill()">Add</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" id="btnDelete" disabled="disabled" class="btn" onclick="deleteSkill()">Delete</button>
+				</div>
+			</div><!-- end row -->
+		</div><!-- end form -->
+	</section>
 {% endblock %}

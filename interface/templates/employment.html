@@ -1,9 +1,50 @@
 {% extends "base.html"%}
 {% block titlecontent %}Employment{% endblock %}
-{% block scriptcontent %}{% endblock %}
+{% block scriptcontent %}onload="listEmployment()"{% endblock %}
 {% block maincontent %}
 	<h2>Employment</h2>
 	<a href="{%url 'Home' %}">Return Home</a>
 	<p>Use the options on this page to add, update or remove your employment history.</p>
-
+	<ul></ul><!-- list of diplomas -->
+	<section>
+		<h3>Add New Employment</h3>
+		<input type="hidden" id="employmentID" value="" />
+		<div class="form-horizontal">
+			<div class="form-group">
+				<label for="txtRole" class="col-sm-4">Role:</label>
+				<div class="col-sm-8">
+					<input id="txtRole" maxlength="50" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtWorkplace" class="col-sm-4">Workplace:</label>
+				<div class="col-sm-8">
+					<input id="txtWorkplace" maxlength="50" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtStartYear" class="col-sm-4">Start Year:</label>
+				<div class="col-sm-8">
+					<input id="txtStartYear" maxlength="4" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">
+				<label for="txtEndYear" class="col-sm-4">End Year:</label>
+				<div class="col-sm-8">
+					<input id="txtEndYear" maxlength="4" required="required" class="form-control" />
+				</div>
+			</div><!-- end form group -->
+			<div class="form-group">Responsibilities:<br />
+				<textarea id="txtResponsibilities" required="required" class="form-control"></textarea>
+			</div><!-- end form group -->
+			<div class="row">
+				<div class="col-sm-6">
+					<button type="button" id="btnPost" class="btn" onclick="addEmployment()">Add</button>
+				</div>
+				<div class="col-sm-6">
+					<button type="button" id="btnDelete" disabled="disabled" class="btn" onclick="deleteEmployment()">Delete</button>
+				</div>
+			</div><!-- end row -->
+		</div><!-- end form -->
+	</section>
 {% endblock %}
