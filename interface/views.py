@@ -9,5 +9,8 @@ def educationPage(request):
 def employmentPage(request):
 	return render(request, 'employment.html')
 
+def referencesPage(request):
+	return render(request, 'references.html')
+
 def skillsPage(request):
 	return render(request, 'skills.html')

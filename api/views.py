@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import educationSerializer, employmentSerializer, skillSerializer
-from .models import Education, Employment, Skills
+from .serializers import educationSerializer, employmentSerializer, referenceSerializer, skillSerializer
+from .models import Education, Employment, Referee, Skills
 
 class EducationList(APIView):
 	def get(self, request):
@@ -73,6 +73,41 @@ class EmploymentByID(APIView):
 	def delete(self, request, pk):
 		employment_obj = self.get_object(pk)
 		employment_obj.delete()
+		return Response( status=status.HTTP_204_NO_CONTENT)
+
+class ReferencesList(APIView):
+	def get(self, request):
+		references_obj = Referee.objects.all()
+		serialize = referenceSerializer(references_obj, many=True)
+		return Response(serialize.data)
+
+	def post(self, request):
+		serializer = referenceSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ReferenceByID(APIView):
+	def get_object(self, pk):
+		return Referee.objects.get(pk=pk)
+
+	def get(self, request, pk):
+		reference_obj = self.get_object(pk)
+		serialize_obj = referenceSerializer(reference_obj)
+		return Response(serialize_obj.data)
+
+	def put(self, request, pk):
+		reference_obj = self.get_object(pk)
+		serialize_obj = referenceSerializer(reference_obj, data=request.data)
+		if serialize_obj.is_valid():
+			serialize_obj.save()
+			return Response(serialize_obj.data, status=status.HTTP_200_OK)
+		return Response(serialize_obj.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, pk):
+		reference_obj = self.get_object(pk)
+		reference_obj.delete()
 		return Response( status=status.HTTP_204_NO_CONTENT)
 
 class SkillsList(APIView):

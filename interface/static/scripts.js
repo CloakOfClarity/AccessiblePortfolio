@@ -186,6 +186,95 @@ function deleteEmployment()
 	} // End confirmation block
 } // End deleteEmployment function
 
+function listReferences()
+{ // This function will populate the references list
+// Make sure the list is empty
+	$("main>ul").empty();
+// Put the option to add a reference at the top of the list
+	$("main>ul").append($("<li></li>"));
+	$("main li").append($("<a></a>").attr({"href":"#","onclick":"addReferencePage()"}).text("Add New Reference"));
+// call the API to get the references list
+	$.get("/api/references", function(data,status)
+	{
+// Loop through the returned items
+		for (let i = 0; i < data.length; i++)
+		{
+// Add each item to the list as a hyperlink
+			$("main>ul").append($("<li></li>"));
+			$("main li:last").append($("<a></a>").attr({"href":"#","onclick":"editReferencePage("+data[i].id+")"}).text(data[i].name));
+		} // End for loop
+	}); // End AJAX get method
+} // end listReference function
+
+function addReferencePage()
+{ // This function will configure the form so that a new reference can be added
+	$("h3").text("Add New Reference");
+	$("input").val("");
+	$("#btnPost").text("Add");
+	$("#btnPost").attr("onclick","addReference()");
+	$("#btnDelete").attr("disabled","");
+} // End addReferencePage function
+
+function addReference()
+{ // This function will post the reference data to the API to add it as a new reference item
+	$.post("/api/references",{
+		name:$("#txtName").val(),
+		phone:$("#txtPhone").val(),
+		email:$("#txtEmail").val(),
+	}, function(data,status) {
+		alert("Reference added successfully!");
+// Add the new reference to the list
+		$("main>ul").append($("<li></li>"));
+		$("main li:last").append($("<a></a>").attr({"href":"#","onclick":"editReferencePage("+data.id+")"}).text(data.name));
+// Reset the form so that a new reference can be added
+		addReferencePage();
+	}).fail(function() {
+		alert("One or more of your inputs were invalid. Please try again.");
+	}); // End AJAX post method
+} // End addReference function
+
+function editReferencePage(id)
+{ // This function will configure the form so that the reference with the specified ID can be edited
+// Fetch the data for the selected reference from the API
+	$.get("/api/references/"+id, function(data,status) {
+		$("h3").text("Edit Selected Reference");
+		$("#referenceID").val(id);
+		$("#txtName").val(data.name);
+		$("#txtPhone").val(data.phone);
+		$("#txtEmail").val(data.email);
+		$("#btnPost").text("Update");
+		$("#btnPost").attr("onclick","editReference()");
+		$("#btnDelete").removeAttr("disabled");
+	}); // End AJAX get method
+} // End editReferencePage function
+
+function editReference()
+{ // This function will put the reference data to the API to update the existing reference
+	$.ajax({url:"/api/references/"+$("#referenceID").val(),type:"put",data:{
+		name:$("#txtName").val(),
+		phone:$("#txtPhone").val(),
+		email:$("#txtEmail").val(),
+	},success: function() {
+		alert("Reference updated successfully!");
+		listReferences();
+	},error:function(){
+		alert("One or more of your inputs were invalid. Please try again.");
+	}}); // End AJAX method
+} // End editReference function
+
+function deleteReference()
+{ // This function will send a delete request to the API to delete an existing reference
+	if(confirm("Are you sure you wish to delete this reference?")) {
+		$.ajax({url:"/api/references/"+$("#referenceID").val(),type:"delete",success: function() {
+			alert("Reference deleted successfully!");
+			listReferences();
+			addReferencePage();
+		},error:function(){
+			alert("One or more of your inputs were invalid. Please try again.");
+		}}); // End AJAX method
+	} // End confirmation block
+} // End deleteReference function
+
 function listSkills()
 { // This function will populate the skills list
 // Make sure the list is empty

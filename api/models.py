@@ -21,6 +21,16 @@ class Employment(models.Model):
 	endYear = models.PositiveSmallIntegerField()
 	responsibilities = models.TextField()
 
+class Referee(models.Model):
+	name = models.CharField(
+		max_length=100
+	)
+	phone = models.CharField(
+		max_length=15,
+				blank=True
+	)
+	email = models.EmailField()
+
 class Skills(models.Model):
 	name = models.CharField(
 		max_length=50,unique=True

@@ -18,15 +18,6 @@
 			</header>
 
 			<main>
-				<div class="row">
-					{% if messages %}
-						{% for msg in messages%}
-							<div class=" alert alert-{{msg.tags}}">
-								{{msg}}
-							</div>
-						{% endfor %}
-					{% endif %}
-				</div>
 				{% block maincontent %}
 
 				{% endblock %}
