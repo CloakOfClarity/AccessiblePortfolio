@@ -1,5 +1,15 @@
 from django.db import models
 
+class BasicInfo(models.Model):
+	name = models.CharField(
+		max_length=100
+	)
+	phone = models.CharField(
+		max_length=15,
+	)
+	email = models.EmailField()
+	description = models.TextField()
+
 class Education(models.Model):
 	diploma = models.CharField(
 		max_length=50

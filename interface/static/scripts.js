@@ -1,3 +1,29 @@
+function getBasic()
+{ // This function will populate the fields on the home page
+	$.get("/api", function(data,status)
+	{
+		$("#txtName").val(data.name);
+		$("#txtPhone").val(data.phone);
+		$("#txtEmail").val(data.email);
+		$("#txtDescription").val(data.description);
+	}); // End AJAX get method
+} // end getBasic function
+
+function editBasic()
+{ // This function will post the basic information to the API
+	$.post("/api/",{
+		name:$("#txtName").val(),
+		phone:$("#txtPhone").val(),
+		email:$("#txtEmail").val(),
+		description:$("#txtDescription").val()
+	}, function(data,status) {
+		alert("Your details were updated successfully!");
+	}).fail(function(textStatus) {
+		alert("One or more of your inputs were invalid. Please try again.");
+		document.write(JSON.stringify(textStatus));
+	}); // End AJAX post method
+} // End editBasic function
+
 function listEducation()
 { // This function will populate the education list
 // Make sure the list is empty
@@ -363,4 +389,3 @@ function deleteSkill()
 		}}); // End AJAX method
 	} // End confirmation block
 } // End deleteSkill function
-

@@ -2,8 +2,46 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import educationSerializer, employmentSerializer, referenceSerializer, skillSerializer
-from .models import Education, Employment, Referee, Skills
+from .serializers import basicSerializer, educationSerializer, employmentSerializer, referenceSerializer, skillSerializer
+from .models import BasicInfo, Education, Employment, Referee, Skills
+
+class BasicInfoView(APIView):
+	def get_object(self):
+		try:
+			basic_obj = BasicInfo.objects.get(pk=1)
+		except:
+			basic_obj = BasicInfo()
+		finally:
+			return basic_obj
+
+	def get(self, request):
+		basic_obj = self.get_object()
+		serialize_obj = basicSerializer(basic_obj)
+		return Response(serialize_obj.data)
+
+	def post(self, request):
+		basic_obj = self.get_object()
+		if basic_obj.id == None:
+			serializer = basicSerializer(data=request.data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data, status=status.HTTP_200_OK)
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+		else:
+			serialize_obj = basicSerializer(basic_obj, data=request.data)
+			if serialize_obj.is_valid():
+				serialize_obj.save()
+				return Response(serialize_obj.data, status=status.HTTP_200_OK)
+			return Response(serialize_obj.errors, status=status.HTTP_400_BAD_REQUEST)
+
+"""
+This function required only for testing.
+
+	def delete(self, request):
+		basic_obj = self.get_object()
+		basic_obj.delete()
+		return Response( status=status.HTTP_204_NO_CONTENT)
+"""
 
 class EducationList(APIView):
 	def get(self, request):

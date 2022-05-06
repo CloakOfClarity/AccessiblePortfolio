@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from .models import Education, Employment, Referee, Skills
+from .models import BasicInfo, Education, Employment, Referee, Skills
+
+class basicSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = BasicInfo
+		fields = '__all__'
 
 class educationSerializer(serializers.ModelSerializer):
 	class Meta:
