@@ -392,5 +392,90 @@ function deleteSkill()
 
 function viewPF()
 { // This function fetches and displays all the data in the portfolio
+// Fetch the basic information first
+	$.get("/api", function(data,status)
+	{
+		if(data.id==null)
+		{ // If no basic information has been set
+			$("h2").text("Resume for the Unnamed Individual");
+			$("#pContact").text("no contact information provided.");
+			$("p#pDescription").text("no description provided.");
+		} else {
+			$("h2").text(data.name);
+			$("#pContact").text(data.phone+", "+data.email);
+			$("#pDescription").text(data.description);
+		} // End if/else block
+	}); // End AJAX get method
 
+// Fetch the education data next
+	$.get("/api/education", function(data,status)
+	{
+		if(data.length>0)
+		{ // List the education
+			for (let i = 0; i < data.length; i++)
+			{ // Add each item to the list
+				$("#lstEducation").append($("<li></li>").attr("id","edu"+i)
+					.text(data[i].diploma+" at "+data[i].institution));
+				if(data[i].startYear==data[i].endYear) {
+// Display the year only once if the diploma was started and finished in the same year
+					$("#edu"+i).text($("#edu"+i).text()+" ("+data[i].startYear+")");
+				} else {
+					$("#edu"+i).html($("#edu"+i).html()+" ("+data[i].startYear+"&ndash;"+data[i].endYear+")");
+				} // End if/else block
+			} // End for loop
+		} else { // Notify that no education has been added
+			$("#lstEducation").append($("<li></li>").text("No education provided"));
+		} // End if/else block
+	}); // End AJAX get method
+
+// Fetch the employment data next
+	$.get("/api/employment", function(data,status)
+	{
+		if(data.length>0)
+		{ // List the employment
+			for (let i = 0; i < data.length; i++)
+			{ // Add each item to the list
+				$("#lstEmployment").append($("<li></li>").attr("id","emp"+i)
+					.text(data[i].role+" at "+data[i].workplace));
+				if(data[i].startYear==data[i].endYear) {
+// Display the year only once if the diploma was started and finished in the same year
+					$("#emp"+i).text($("#emp"+i).text()+" ("+data[i].startYear+")");
+				} else {
+					$("#emp"+i).html($("#emp"+i).html()+" ("+data[i].startYear+"&ndash;"+data[i].endYear+")");
+				} // End if/else block
+				$("#emp"+i).html($("#emp"+i).html()+"<br />"+data[i].responsibilities);
+			} // End for loop
+		} else { // Notify that no employment has been added
+			$("#lstEmployment").append($("<li></li>").text("No employment provided"));
+		} // End if/else block
+	}); // End AJAX get method
+
+// Fetch the skills data next
+	$.get("/api/skills", function(data,status)
+	{
+		if(data.length>0)
+		{ // List the skills
+			let ps = ["","Beginner","Regular","Expert"];
+			for (let i = 0; i < data.length; i++)
+			{ // Add each item to the list
+				$("#lstSkills").append($("<li></li>").text(data[i].name+" ("+ps[data[i].proficiency]+")"));
+			} // End for loop
+		} else { // Notify that no skills have been added
+			$("#lstSkills").append($("<li></li>").text("No skills provided"));
+		} // End if/else block
+	}); // End AJAX get method
+
+// Fetch the reference data next
+	$.get("/api/references", function(data,status)
+	{
+		if(data.length>0)
+		{ // List the references
+			for (let i = 0; i < data.length; i++)
+			{ // Add each item to the list
+				$("#lstReferences").append($("<li></li>").text(data[i].name+": "+data[i].phone+", "+data[i].email));
+			} // End for loop
+		} else { // Notify that no skills have been added
+			$("#lstReferences").append($("<li></li>").text("No skills provided"));
+		} // End if/else block
+	}); // End AJAX get method
 } // End viewPF function
